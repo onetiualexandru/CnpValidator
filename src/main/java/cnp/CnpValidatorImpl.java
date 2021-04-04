@@ -2,49 +2,52 @@ package cnp;
 
 public class CnpValidatorImpl implements CnpValidator {
 
-    private Sex sex;
-
 
     @Override
     public CnpParts validateCnp(String cnp) throws CnpException {
 
-        setCnpParts(cnp);
 
-        CnpParts cnpParts = new CnpParts() {
-            @Override
-            public Sex sex() {
-                return sex;
-            }
+        if (CnpValidationUtils.isValid(cnp)) {
 
-            @Override
-            public Boolean foreigner() {
-                return null;
-            }
+            String cnpInit = cnp.strip();
 
-            @Override
-            public CalDate birthDate() {
-                return CnpUtils.getCalDate();
-            }
+            Sex sex = CnpUtils.getCnpSex(cnpInit);
+            Boolean foreigner = CnpUtils.getForeigner(cnpInit);
+            CalDate calDate = CnpUtils.getBirthdate(cnpInit);
+            County county = CnpUtils.getCounty(cnpInit);
 
-            @Override
-            public County county() {
-                return null;
-            }
 
-            @Override
-            public Integer orderNumber() {
-                return null;
-            }
-        };
+            CnpParts cnpParts = new CnpParts() {
+                @Override
+                public Sex sex() {
+                    return sex;
+                }
 
-        return cnpParts;
+                @Override
+                public Boolean foreigner() {
+                    return foreigner;
+                }
+
+                @Override
+                public CalDate birthDate() {
+                    return calDate;
+                }
+
+                @Override
+                public County county() {
+                    return county;
+                }
+
+                @Override
+                public Integer orderNumber() {
+                    return null;
+                }
+
+            };
+
+            return cnpParts;
+        } else throw new CnpException("Cnp is invalid!");
     }
-
-    private void setCnpParts(String cnpParts) {
-
-        final Sex sex = CnpUtils.getSex();
-    }
-
 
 }
 
