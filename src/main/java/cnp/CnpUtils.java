@@ -14,9 +14,7 @@ public class CnpUtils {
 
     protected static boolean getForeigner(String cnp) {
         char cnpSex = cnp.charAt(0);
-        if (cnpSex == '7' || cnpSex == '8')
-            return true;
-        else return false;
+        return cnpSex == '7' || cnpSex == '8';
 
     }
 
@@ -39,7 +37,7 @@ public class CnpUtils {
             year = null;
 
 
-        CalDate calDate = new CalDate() {
+        return new CalDate() {
             @Override
             public Short year() {
                 return year;
@@ -55,8 +53,6 @@ public class CnpUtils {
                 return day;
             }
         };
-
-        return calDate;
 
     }
 
@@ -161,11 +157,12 @@ public class CnpUtils {
                     return County.CL;
                 case "52":
                     return County.GR;
+                default:
+                    throw new IllegalStateException("Unexpected value: " + county);
             }
         } catch (IllegalArgumentException e) {
             throw new CnpException("County with number " + county + " not found!");
         }
 
-        return null;
     }
 }

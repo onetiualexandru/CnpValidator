@@ -42,12 +42,12 @@ public class CnpValidatorImpl implements CnpValidator {
                 public Integer orderNumber() {
                     return null;
                 }
-
             };
 
             return cnpParts;
         } else throw new CnpException("Cnp is invalid!");
     }
+
 
 }
 

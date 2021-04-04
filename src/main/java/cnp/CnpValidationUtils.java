@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat;
 
 public class CnpValidationUtils {
 
-    public static boolean isValid(String cnp) throws CnpException {
+    protected static boolean isValid(String cnp) {
 
         String cnpInit;
 
@@ -18,7 +18,7 @@ public class CnpValidationUtils {
         return cnpInit.length() == 13 && structureValidation(cnpInit) && controlValidation(cnpInit);
     }
 
-    public static boolean structureValidation(String cnp) throws CnpException {
+    protected static boolean structureValidation(String cnp) {
 
         String cnpInit = cnp.strip();
 
@@ -34,18 +34,19 @@ public class CnpValidationUtils {
 
     }
 
-    public static boolean cnpSexValidation(String number) {
+    protected static boolean cnpSexValidation(String number) {
         int i = Integer.parseInt(number);
         return (i >= 1 && i <= 8);
     }
 
-    public static boolean cnpCountyValidation(String number) {
+    protected static boolean cnpCountyValidation(String number) {
         int i = Integer.parseInt(number);
         return i >= 1 && i <= 46 || i == 51 || i == 52;
 
     }
 
-    public static boolean cnpDateValidation(String cnpDate) throws CnpException {
+    protected static boolean cnpDateValidation(String cnpDate) {
+
         SimpleDateFormat sdf = new SimpleDateFormat();
         sdf.applyPattern("yyMMdd");
         sdf.setLenient(false);
@@ -53,11 +54,11 @@ public class CnpValidationUtils {
             sdf.parse(cnpDate);
             return true;
         } catch (ParseException e) {
-          throw new CnpException("Invalid Date "+e.getMessage());
+            return false;
         }
     }
 
-    public static boolean controlValidation(String cnp) {
+    protected static boolean controlValidation(String cnp) {
 
         String cnpInit = cnp.strip();
         if (cnpInit.length() != 13)
